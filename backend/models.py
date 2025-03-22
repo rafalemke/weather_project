@@ -1,4 +1,4 @@
 from pydantic import BaseModel
 
-class Temperatura(BaseModel):
-    valor: float
+class Distance(BaseModel):
+    distance: float

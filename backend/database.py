@@ -1,8 +1,8 @@
-import psycopg2
+import mysql.connector
 from config import DATABASE
 
 def get_connection():
-    return psycopg2.connect(
+    return mysql.connector.connect(
         host=DATABASE["host"],
         database=DATABASE["database"],
         user=DATABASE["user"],
@@ -13,9 +13,9 @@ def create_table():
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS temperatura (
+        CREATE TABLE IF NOT EXISTS esp32_sensor (
             id SERIAL PRIMARY KEY,
-            valor FLOAT NOT NULL,
+            distance FLOAT NOT NULL,
             data_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     """)
