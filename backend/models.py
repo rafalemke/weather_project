@@ -1,4 +1,6 @@
 from pydantic import BaseModel
 
-class Distance(BaseModel):
-    distance: float
+class WeatherData(BaseModel):
+    temperature: float
+    pressure: float
+    humidity: float

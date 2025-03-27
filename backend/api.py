@@ -1,18 +1,18 @@
 from fastapi import FastAPI
-from models import Distance
-from services import inserir_medida, obter_medidas
+from models import WeatherData
+from services import get_weather_data, insert_weather_data
 from config import API_HOST, API_PORT
 
 app = FastAPI()
 
-@app.post("/registrar")
-def registrar_medida(dado: Distance):
-    inserir_medida(dado.distance)
-    return {"status": "ok", "distance": dado.distance}
+@app.post("/register")
+def register_data(data: WeatherData):
+    insert_weather_data(data.temperature, data.pressure, data.humidity)
+    return {"status": "ok", "data": data}
 
-@app.get("/dados")
-def listar_dados():
-    return {"dados": obter_medidas()}
+@app.get("/data")
+def list_data():
+    return {"data": get_weather_data()}
 
 if __name__ == "__main__":
     import uvicorn

@@ -14,7 +14,7 @@ def get_local_ip():
 
 DATABASE = {
     "host": "localhost",
-    "database": "test",
+    "database": "itacarnijo",
     "user": "teste",
     "password": "1234"
 }
