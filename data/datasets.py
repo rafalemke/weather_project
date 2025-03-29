@@ -1,24 +1,12 @@
-import plotly.express as px
 import plotly.graph_objects as go
-import pandas as pd
-import requests
-
-def fetch_data_from_api(api_url="http://192.168.2.113:8000/data"):
-    """
-    Faz uma requisição à API para obter os dados e retorna um DataFrame.
-    """
-    response = requests.get(api_url)
-    if response.status_code == 200:
-        data = response.json().get("data", [])
-        return pd.DataFrame(data)  # Converte os dados para um DataFrame
-    else:
-        raise Exception(f"Erro ao buscar dados da API: {response.status_code}")
 
 
 def temperature_chart(df, second_variable="pressure"):
     """
     Cria um gráfico de linhas mostrando temperatura e uma segunda variável com escalas separadas.
     """
+    
+
     if df.empty:
         raise ValueError("O DataFrame está vazio. Não é possível criar o gráfico.")
     
