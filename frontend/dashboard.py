@@ -5,8 +5,8 @@ import os
 # Adiciona o diretório raiz do projeto ao PYTHONPATH
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from backend.services import authenticate_user  # Agora o import funcionará
-
+from backend.services import authenticate_user  
+from data.datasets import fetch_data_from_api, temperature_chart
 
 # Configuração da página
 st.set_page_config(page_title="Dashboard", layout="wide")
@@ -42,6 +42,27 @@ else:
     if menu_option == "Página Inicial":
         st.title("Bem-vindo ao Dashboard")
         st.write("Esta é a página inicial.")
+
+        try:
+            # Busca os dados da API
+            df = fetch_data_from_api()
+
+            # Seleciona a segunda variável do gráfico
+            second_variable = st.radio(
+                "Selecione a segunda variável para o gráfico:",
+                options=["pressure", "humidity"],
+                format_func=lambda x: "Pressão (hPa)" if x == "pressure" else "Umidade (%)"
+            )
+
+            # Cria o gráfico de linhas
+            fig = temperature_chart(df, second_variable)
+
+            # Exibe o gráfico no Streamlit
+            st.subheader("Gráfico de Temperatura")
+            st.plotly_chart(fig)
+
+        except Exception as e:
+            st.error(f"Erro ao carregar os dados ou criar o gráfico: {e}")
 
     elif menu_option == "Relatórios":
         st.title("Relatórios")

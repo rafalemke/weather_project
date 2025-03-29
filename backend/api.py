@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from models import WeatherData
-from services import get_weather_data, insert_weather_data
-from config import API_HOST, API_PORT
+from backend.models import WeatherData
+from backend.services import get_weather_data, insert_weather_data
+from backend.config import API_HOST, API_PORT
+
 
 app = FastAPI()
 

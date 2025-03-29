@@ -45,3 +45,12 @@ def get_weather_data(limit=10):
     cursor.close()
     conn.close()
     return [{"date": record[0], "temperature": record[1], "pressure": record[2], "humidity": record[3]} for record in records]
+
+def get_weather_data(limit=100):
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)  # Retorna os resultados como dicionários
+    cursor.execute("SELECT * FROM weather_data ORDER BY date DESC LIMIT %s", (limit,))
+    records = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return records
