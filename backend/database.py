@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Adiciona o diretório raiz do projeto ao PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import mysql.connector
 from mysql.connector import Error
 from backend.config import DATABASE
@@ -29,9 +35,8 @@ def create_table():
 
         # Criação da tabela weather_data com tipos corretos
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS weather_data (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            CREATE TABLE IF NOT EXISTS weather_data (                
+                date DATETIME DEFAULT CURRENT_TIMESTAMP,
                 temperature FLOAT NOT NULL,
                 pressure FLOAT NOT NULL,
                 humidity FLOAT NOT NULL
@@ -42,6 +47,7 @@ def create_table():
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(100) NOT NULL,
                 username VARCHAR(50) NOT NULL UNIQUE,
                 password_hash VARCHAR(255) NOT NULL,
                 role ENUM('user', 'admin') DEFAULT 'user'

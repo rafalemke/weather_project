@@ -22,9 +22,9 @@ def get_local_ip():
 # Configuração do Banco de Dados
 DATABASE = {
     "host": os.getenv("DB_HOST", "localhost"),
-    "database": os.getenv("DB_NAME", "itacarnijo"),
-    "user": os.getenv("DB_USER", "teste"),
-    "password": os.getenv("DB_PASSWORD", "1234")
+    "database": os.getenv("DB_NAME", "database_name"),
+    "user": os.getenv("DB_USER", "username"),
+    "password": os.getenv("DB_PASSWORD", "password"),
 }
 
 # Configuração da API
@@ -33,5 +33,3 @@ if API_HOST == "0.0.0.0":  # Se for 0.0.0.0, substitui pelo IP local
     API_HOST = get_local_ip()
 
 API_PORT = int(os.getenv("API_PORT", 8000))  # Porta padrão 8000
-
-print(API_HOST,API_PORT)

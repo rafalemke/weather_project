@@ -24,7 +24,7 @@ def authenticate_user(username: str, password: str):
             return None
 
         cursor = conn.cursor()
-        cursor.execute("SELECT password, role FROM users WHERE username = %s LIMIT 1", (username,))
+        cursor.execute("SELECT name, password, role FROM users WHERE username = %s LIMIT 1", (username,))
         user = cursor.fetchone()
         
     except Error as e:
@@ -36,7 +36,7 @@ def authenticate_user(username: str, password: str):
         if conn:
             conn.close()
 
-    if user and verify_password(password, user[0]):  # Verifica o hash da senha
-        return {"username": username, "role": user[1]}
+    if user and verify_password(password, user[1]):  # Verifica o hash da senha
+        return {"username": username, "role": user[2], "name": user[0]}
     
     return None

@@ -1,15 +1,20 @@
 from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, date
 
 class WeatherData(BaseModel):
-    id: Optional[int] = None  # Opcional, pois pode ser gerado pelo banco de dados
     temperature: float
     pressure: float
     humidity: float
-    timestamp: Optional[datetime] = None  # O banco pode definir automaticamente
+    date: Optional[datetime] = None
 
 class UserData(BaseModel):
     username: str
-    password: str  # A senha deve ser tratada com hashing antes de ser salva no banco
-    role: Optional[str] = "user"  # Papel do usuário no sistema
+    password: str
+    role: Optional[str] = "user"
+    name: str
+
+class WeatherQueryParams(BaseModel):
+    start_date: Optional[date]
+    end_date: Optional[date]
+    limit: Optional[int] = 100

@@ -7,14 +7,15 @@ def show_settings():
 
         # Criar usuário
         st.subheader("Criar Novo Usuário")
-        new_username = st.text_input("Nome de Usuário")
+        new_name = st.text_input("Nome de Usuário")
+        new_username = st.text_input("Login")
         new_password = st.text_input("Senha", type="password")
         new_role = st.selectbox("Papel do Usuário", ["user", "admin"])
 
         if st.button("Criar Usuário"):
-            if new_username and new_password:
+            if new_username and new_password and new_name:
                 try:
-                    insert_user(new_username, new_password, new_role)
+                    insert_user(new_name, new_username, new_password, new_role)
                     st.success(f"Usuário '{new_username}' criado com sucesso!")
                 except Exception as e:
                     st.error(f"Erro ao criar usuário: {e}")
