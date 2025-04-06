@@ -1,6 +1,6 @@
-# Projeto de Servidor Meteorológico
+# **🌦️ Projeto de Servidor Meteorológico**
 
-Este projeto consiste em um sistema de monitoramento de distância utilizando uma placa ESP32, um sensor ultrassônico HC-SR04, uma API desenvolvida em FastAPI para armazenar os dados em um banco MySQL e um dashboard em Streamlit para visualização dos dados.
+Este projeto implementa um sistema de monitoramento climático baseado em IoT, utilizando uma placa ESP32 integrada ao sensor BME280 para aquisição de dados meteorológicos. As informações são transmitidas para um servidor via API desenvolvida com FastAPI, armazenadas em um banco de dados MySQL e apresentadas em tempo real através de um dashboard interativo construído com Streamlit.
 ---
 
 <BR>
@@ -8,37 +8,32 @@ Este projeto consiste em um sistema de monitoramento de distância utilizando um
 
 
 
-## **Visão Geral**
-O sistema coleta dados de distância a cada 10 segundos através de um sensor conectado à ESP32. Esses dados são enviados para um servidor via HTTP POST, onde são armazenados em um banco de dados MySQL. Uma API desenvolvida em FastAPI fornece os dados para um dashboard em Streamlit, que exibe as últimas leituras de distância em tempo real.
-<BR>
-O projeto é dividido em três componentes principais:
+## 🌦️ Visão Geral do Sistema
 
-- ESP32: Responsável pela coleta de dados do sensor e envio para o servidor.
+O sistema realiza a coleta automática de **temperatura**, **umidade relativa do ar** e **pressão atmosférica** a cada **5 minutos**, utilizando um sensor **BME280** conectado a uma placa **ESP32**. Os dados são transmitidos ao servidor via requisições **HTTP POST**, sendo armazenados em um banco de dados **MySQL**.
 
-- Backend (FastAPI): Recebe os dados, armazena no banco de dados MySQL e fornece uma API para consulta.
+A **API desenvolvida com FastAPI** disponibiliza endpoints seguros para envio e consulta dos dados, integrando-se ao **dashboard interativo em Streamlit**, que exibe:
 
-- Frontend (Streamlit): Exibe os dados em um dashboard interativo.
+- ✅ As leituras mais recentes em tempo real  
+- 📊 Gráficos dinâmicos para análise histórica  
+- 🌡️ Indicadores climáticos  
+- 🔄 Atualizações automáticas  
+- 📤 Exportação de relatórios nos formatos **CSV**, **XLSX** e **Json**
 
+---
 
-<BR>
-<BR>
+### 🔐 Funcionalidades de Segurança e Acesso
 
+O sistema conta com um **mecanismo de autenticação de usuários com senha criptografada (bcrypt)**, permitindo:
 
-## **Funcionalidades**
+- 🔑 **Login seguro com validação de credenciais**
+- 🧑‍💼 **Controle de permissões baseado em perfil de usuário** (ex.: administrador ou visitante)
+- ⚙️ **Acesso restrito a funcionalidades administrativas**, como gerenciamento de usuários
 
-#### Coleta de Dados:
-- A ESP32 coleta dados de distância a cada 10 segundos e os envia para o servidor.
+---
 
-#### Armazenamento:
-- Os dados são armazenados em um banco de dados MySQL na tabela esp32_sensor.
-
-#### API:
-- A API fornece dois endpoints:
-  - POST /registrar: Recebe os dados de distância e os armazena no banco.
-  - GET /dados: Retorna as últimas 10 leituras de distância.
-
-#### Dashboard:
-- Um dashboard em Streamlit exibe as últimas leituras de distância em tempo real.
+Essa abordagem garante a **integridade dos dados**, a **segurança do sistema** e uma **visualização clara e intuitiva** das informações meteorológicas.
+---
 
 
 <BR>
@@ -52,11 +47,17 @@ projeto/
 │      ├── config.py                   # Configurações (IP, porta, banco de dados)
 │      ├── database.py                 # Conexão e criação da tabela no MySQL
 │      ├── models.py                   # Modelos Pydantic para validação de dados
+│      ├── security.py                 # Autenticação de usuário
 │      └── services.py                 # Funções para interagir com o banco de dados
 ├── esp32/                             
-│      └── distReg.ini                 # Script para leitura do sensor e envio de dados
+│      └── weather_sensor.ini          # Script para leitura do sensor e envio de dados
 └── frontend/                          # Código do dashboard (Streamlit)
-|      └── dashboard.py                
-├── app.py                             
+│      ├── views/              
+|      |     └── home.py               # Pagina principal
+|      |     └── reports.py            # Gráficos e Relatórios
+|      |     └── settings.py           # Configurações (Só exibido para usuarios permitidos)
+|      |     └── logout.py             
+|      └── app.py     
+├── README.md                                   
 └── requirements.txt                   
 ````
