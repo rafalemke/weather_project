@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 from datetime import date
 from backend.models import WeatherData
-from backend.services import get_weather_data, insert_weather_data
+from backend.services import get_weather_data, insert_weather_data, get_extremos
 from backend.config import API_HOST, API_PORT
 
 app = FastAPI()
@@ -39,6 +39,15 @@ def list_data(
     """
     data = get_weather_data(start_date=start_date, end_date=end_date, limit=limit)
     return {"data": data}
+
+@app.get("/extremos")
+def extremos():
+    """
+    Retorna os valores máximos e mínimos de temperatura, umidade e pressão, e as datas desses registros.
+    """
+    data = get_extremos()
+    return data
+
 
 if __name__ == "__main__":
     import uvicorn

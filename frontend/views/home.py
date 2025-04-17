@@ -24,7 +24,6 @@ def show_home():
     </div>
     """, unsafe_allow_html=True)
 
-    # Script JavaScript separado (esse sim será executado)
     components.html("""
         <script>
             function updateClock() {
@@ -39,32 +38,34 @@ def show_home():
             updateClock();
         </script>
     """, height=0, width=0)
-    
 
-    
-    
-    # URL da API
-    API_URL = f"http://{API_HOST}:{API_PORT}/data?limit=1"  # Pega apenas a última leitura
-    
+    API_URL = f"http://{API_HOST}:{API_PORT}/data?limit=1"
+    EXTREMOS_URL = f"http://{API_HOST}:{API_PORT}/extremos"
+
     try:
-        # Buscar os dados mais recentes
         response = requests.get(API_URL)
         response.raise_for_status()
         data = response.json()["data"]
-        
+
+        extremos_response = requests.get(EXTREMOS_URL)
+        extremos_response.raise_for_status()
+        extremos = extremos_response.json()
+
         if data:
             last_reading = data[0]
             last_update = datetime.strptime(last_reading["date"], "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y %H:%M:%S")
-            
-            # Layout em colunas para os cards
-            col1, col2, col3 = st.columns(3)
-            
-            
+            temp_max_date = datetime.strptime(extremos["dates"]["temp_max"], "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y %H:%M")
+            temp_min_date = datetime.strptime(extremos["dates"]["temp_min"], "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y %H:%M")
+            press_max_date = datetime.strptime(extremos["dates"]["press_max"], "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y %H:%M")
+            press_min_date = datetime.strptime(extremos["dates"]["press_min"], "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y %H:%M")
+            hum_max_date = datetime.strptime(extremos["dates"]["hum_max"], "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y %H:%M")
+            hum_min_date = datetime.strptime(extremos["dates"]["hum_min"], "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y %H:%M")
 
-            # Card de Temperatura
+
+            col1, col2, col3 = st.columns(3)
+
             with col1:
-                st.markdown(
-                    f"""
+                st.markdown(f"""
                     <div style="
                         background: linear-gradient(135deg, #ff9966, #ff5e62);
                         padding: 20px;
@@ -76,15 +77,14 @@ def show_home():
                         <h2>🌡️ Temperatura</h2>
                         <h1 style="font-size: 2.5rem;">{last_reading["temperature"]:.1f} °C</h1>
                         <p>Última atualização:<br>{last_update}</p>
+                        <p>⬆️ Máx: {extremos["max_temp"]:.1f} °C<br>📅 {temp_max_date}</p>
+                        <p>⬇️ Mín: {extremos["min_temp"]:.1f} °C<br>📅 {temp_min_date}</p>   
+
                     </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-            
-            # Card de Pressão
+                """, unsafe_allow_html=True)
+
             with col2:
-                st.markdown(
-                    f"""
+                st.markdown(f"""
                     <div style="
                         background: linear-gradient(135deg, #4b6cb7, #182848);
                         padding: 20px;
@@ -96,15 +96,13 @@ def show_home():
                         <h2>🌬️ Pressão</h2>
                         <h1 style="font-size: 2.5rem;">{last_reading["pressure"]:.1f} hPa</h1>
                         <p>Última atualização:<br>{last_update}</p>
+                        <p>⬆️ Máx: {extremos["max_pressure"]:.1f} hPa<br>📅 {press_max_date}</p>
+                        <p>⬇️ Mín: {extremos["min_pressure"]:.1f} hPa<br>📅 {press_min_date}</p>
                     </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-            
-            # Card de Umidade
+                """, unsafe_allow_html=True)
+
             with col3:
-                st.markdown(
-                    f"""
+                st.markdown(f"""
                     <div style="
                         background: linear-gradient(135deg, #56ab2f, #a8e063);
                         padding: 20px;
@@ -116,28 +114,26 @@ def show_home():
                         <h2>💧 Umidade</h2>
                         <h1 style="font-size: 2.5rem;">{last_reading["humidity"]:.1f} %</h1>
                         <p>Última atualização:<br>{last_update}</p>
+                        <p>⬆️ Máx: {extremos["max_humidity"]:.1f} %<br>📅 {hum_max_date}</p>
+                        <p>⬇️ Mín: {extremos["min_humidity"]:.1f} %<br>📅 {hum_min_date}</p>
                     </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-            
-            # Seção de informações sobre a fonte dos dados
+                """, unsafe_allow_html=True)
+
             st.markdown("---")
             st.subheader("ℹ️ Sobre os Dados")
             st.markdown("""
-            Os dados são coletados em tempo real através de sensores conectados à uma API.  \n
-            **Fonte dos dados:** Estação Meteorológica IoT ESP32 - Sensor BME280.\n
-            **Localização:** Município de Moreno/PE \n
+            Os dados são coletados em tempo real através de sensores conectados à uma API.  
+            **Fonte dos dados:** Estação Meteorológica IoT ESP32 - Sensor BME280.  
+            **Localização:** Município de Moreno/PE  
             **Frequência de atualização:** A cada 5 minutos  
             """)
-            
+
         else:
             st.warning("Nenhum dado disponível no momento. Verifique a conexão com os sensores.")
-            
+
     except requests.exceptions.RequestException as e:
         st.error(f"Erro ao conectar com a API: {str(e)}")
         st.info("Verifique se o servidor da API está rodando e acessível.")
 
-    # Botão para atualizar manualmente
     if st.button("🔄 Atualizar Dados"):
         st.rerun()
