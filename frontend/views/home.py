@@ -6,6 +6,7 @@ from streamlit_autorefresh import st_autorefresh
 import streamlit.components.v1 as components
 
 def show_home():
+    st.html("<style>[data-testid='stHeaderActionElements'] {display: none;}</style>")
     st.markdown("""
     <div style="text-align: center; padding-top: 10px;">
         <h1 style="margin-bottom: 0;">🌦️ Monitoramento Climático - Sítio Itacarnijó</h1>
@@ -74,13 +75,15 @@ def show_home():
                         text-align: center;
                         color: white;
                     ">
-                        <h2>🌡️ Temperatura</h2>
-                        <h1 style="font-size: 2.5rem;">{last_reading["temperature"]:.1f} °C</h1>                        
+                        <h2 style="text-align: center">🌡️ Temperatura</h2>
+                        <h1 style="font-size: 2.5rem;">{last_reading["temperature"]:.1f} °C</h1>
+                        <hr>                      
                         <p>⬆️ Máx: {extremos["max_temp"]:.1f} °C<br>📅 {temp_max_date}</p>
                         <p>⬇️ Mín: {extremos["min_temp"]:.1f} °C<br>📅 {temp_min_date}</p>   
-
+                        
                     </div>
                 """, unsafe_allow_html=True)
+                
 
             with col2:
                 st.markdown(f"""
@@ -94,6 +97,7 @@ def show_home():
                     ">
                         <h2>🌬️ Pressão</h2>
                         <h1 style="font-size: 2.5rem;">{last_reading["pressure"]:.1f} hPa</h1>
+                        <hr> 
                         <p>⬆️ Máx: {extremos["max_pressure"]:.1f} hPa<br>📅 {press_max_date}</p>
                         <p>⬇️ Mín: {extremos["min_pressure"]:.1f} hPa<br>📅 {press_min_date}</p>
                     </div>
@@ -110,7 +114,8 @@ def show_home():
                         color: white;
                     ">
                         <h2>💧 Umidade</h2>
-                        <h1 style="font-size: 2.5rem;">{last_reading["humidity"]:.1f} %</h1>
+                        <h1 style="font-size: 2.5rem;">  {last_reading["humidity"]:.1f} %</h1>
+                        <hr> 
                         <p>⬆️ Máx: {extremos["max_humidity"]:.1f} %<br>📅 {hum_max_date}</p>
                         <p>⬇️ Mín: {extremos["min_humidity"]:.1f} %<br>📅 {hum_min_date}</p>
                     </div>

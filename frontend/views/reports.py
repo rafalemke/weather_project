@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 API_URL = f"http://{API_HOST}:{API_PORT}/data"
 
 def show_reports():
+    st.html("<style>[data-testid='stHeaderActionElements'] {display: none;}</style>")
+    
     st.title("Painel de Relatórios Meteorológicos 🌦️")
     st.markdown("---")
     st.subheader("📈 Dados Históricos")
