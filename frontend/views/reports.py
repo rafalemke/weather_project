@@ -10,9 +10,9 @@ from datetime import datetime, timedelta
 API_URL = f"http://{API_HOST}:{API_PORT}/data"
 
 def show_reports():
-    st.title("Relatórios Meteorológicos 🌦️")
+    st.title("Painel de Relatórios Meteorológicos 🌦️")
     st.markdown("---")
-    st.subheader("📈 Gerar Gráfico")
+    st.subheader("📈 Dados Históricos")
 
     # Inicializar variáveis de estado
     if 'export_format' not in st.session_state:

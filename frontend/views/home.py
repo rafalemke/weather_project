@@ -75,8 +75,7 @@ def show_home():
                         color: white;
                     ">
                         <h2>🌡️ Temperatura</h2>
-                        <h1 style="font-size: 2.5rem;">{last_reading["temperature"]:.1f} °C</h1>
-                        <p>Última atualização:<br>{last_update}</p>
+                        <h1 style="font-size: 2.5rem;">{last_reading["temperature"]:.1f} °C</h1>                        
                         <p>⬆️ Máx: {extremos["max_temp"]:.1f} °C<br>📅 {temp_max_date}</p>
                         <p>⬇️ Mín: {extremos["min_temp"]:.1f} °C<br>📅 {temp_min_date}</p>   
 
@@ -95,7 +94,6 @@ def show_home():
                     ">
                         <h2>🌬️ Pressão</h2>
                         <h1 style="font-size: 2.5rem;">{last_reading["pressure"]:.1f} hPa</h1>
-                        <p>Última atualização:<br>{last_update}</p>
                         <p>⬆️ Máx: {extremos["max_pressure"]:.1f} hPa<br>📅 {press_max_date}</p>
                         <p>⬇️ Mín: {extremos["min_pressure"]:.1f} hPa<br>📅 {press_min_date}</p>
                     </div>
@@ -113,12 +111,18 @@ def show_home():
                     ">
                         <h2>💧 Umidade</h2>
                         <h1 style="font-size: 2.5rem;">{last_reading["humidity"]:.1f} %</h1>
-                        <p>Última atualização:<br>{last_update}</p>
                         <p>⬆️ Máx: {extremos["max_humidity"]:.1f} %<br>📅 {hum_max_date}</p>
                         <p>⬇️ Mín: {extremos["min_humidity"]:.1f} %<br>📅 {hum_min_date}</p>
                     </div>
                 """, unsafe_allow_html=True)
 
+            st.markdown(f"""
+            <br>
+            <p style="text-align: center; font-size: 1.2rem;">
+                        Última atualização: {last_update}
+            </p>
+            """, unsafe_allow_html=True)
+            
             st.markdown("---")
             st.subheader("ℹ️ Sobre os Dados")
             st.markdown("""
