@@ -32,7 +32,7 @@ def register_data(data: WeatherData):
 def list_data(
     start_date: Optional[date] = Query(None),
     end_date: Optional[date] = Query(None),
-    limit: int = Query(100)
+    limit: int = Query(10000)
 ):
     """
     Retorna os dados meteorológicos com filtros opcionais por data e limite.
