@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Carregar variáveis de ambiente do arquivo .env
-env_path = Path('..') / '.env'
+env_path = Path(__file__).resolve().parent.parent / '.env'
 load_dotenv(dotenv_path=env_path)
 
 def get_local_ip():
