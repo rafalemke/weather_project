@@ -48,15 +48,19 @@ def plot_historic_data(df, variable, days=7):
     ax.set_facecolor('none')
 
     if days == 1:
-        df_last_day = df[df['date'].dt.date == df['date'].dt.date.max()]
+        # Filtra os dados para as últimas 24 horas
+        last_24_hours = df[df['date'] >= df['date'].max() - pd.Timedelta(hours=24)]
+        last_24_hours['hour'] = last_24_hours['date'].dt.floor('H')
+        last_24_hours['dia'] = last_24_hours['date'].dt.date  # Arredonda para a hora inteira
         grouped = (
-            df_last_day.groupby(df_last_day['date'].dt.hour)[variable]
+            last_24_hours.groupby([last_24_hours['dia'], last_24_hours['hour']])[variable]
             .agg(['min', 'max', 'mean'])
             .reset_index()
         )
+        grouped['hour_label'] = grouped['hour'].dt.strftime('%H')  # Formata as horas para exibição lógica
         x = np.arange(len(grouped))
         ax.set_xticks(x)
-        ax.set_xticklabels([f"{h}h" for h in grouped['date']], rotation=0, color="white")
+        ax.set_xticklabels([f"{h}h" for h in grouped['hour_label']], rotation=45, color="white")
 
     else:
         df['dia'] = df['date'].dt.date
