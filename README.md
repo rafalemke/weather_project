@@ -1,6 +1,6 @@
 # **🌦️ Projeto de Servidor Meteorológico**
 
-Este projeto implementa um sistema de monitoramento climático baseado em IoT, utilizando uma placa ESP32 integrada ao sensor BME280 para aquisição de dados meteorológicos. As informações são transmitidas para um servidor via API desenvolvida com FastAPI, armazenadas em um banco de dados MySQL e apresentadas em tempo real através de um dashboard interativo construído com Streamlit.
+Este projeto é um sistema de monitoramento climático IoT end-to-end. Um sensor BME280 acoplado a um ESP32 captura dados meteorológicos, que são transmitidos para um servidor de borda (Raspberry Pi) localizado em uma rede remota. Para garantir a comunicação segura e estável pela internet, foi implementado um túnel com Cloudflare, que expõe uma API desenvolvida em FastAPI. A API alimenta um banco de dados MySQL e permite a visualização dos dados em tempo real através de um dashboard interativo construído com Streamlit.
 ---
 
 <BR>
@@ -21,6 +21,25 @@ A **API desenvolvida com FastAPI** disponibiliza endpoints seguros para envio e 
 - 📤 Exportação de relatórios nos formatos **CSV**, **XLSX** e **Json**
 
 ---
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="data/Print_home.png" alt="Print da tela inicial do projeto" width="400"/>
+    </td>
+    <td align="center">
+      <img src="data/print_relatorio.png" alt="Print do relatório gerado pela aplicação" width="400"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="data/print_analise.png" alt="Print da tela de análise de dados" width="400"/>
+    </td>    
+    <td align="center">
+      <img src="data/print_export.png" alt="Print da funcionalidade de exportação" width="400"/>
+    </td>
+  </tr>
+</table>
 
 ### 🔐 Funcionalidades de Segurança e Acesso
 
